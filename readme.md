@@ -2,23 +2,31 @@
 
 * 8 minuters eksamen
 
-## Overall learning goals
+## 1. Overall learning goals
 * Identify and describe visual recognition tasks that can be solved with deep learning.
 * Describe and compare different neural networks architectures.
 * Explain and compare techniques for training neural networks.
 * Apply deep learning to standard visual recognition tasks and interpret the results.
 * Design your own course project, implement it, experiment with it, analyse and relate the results to techniques and theories in deep learning for visual recognition.
 
-## Generalle ting at vide
+## 2. Notation
+
+> Ting der står sådan her, skal skrives på tavlen.
+
+Ting der står sådan er, siger man.
+
+~~Ting der står sådan her, er blot ting man skal vide.~~
+
+## 3. Generalle ting at vide
 _Baseret på lektion 1 og 2_.
 
-### Forskel på AI, ML og DL
+### 3.1 Forskel på AI, ML og DL
 
 * Artificial Intelligence: Er det generelle term, om en computer der virker som en menneskelig hjerne
 * Machine Learning: er en sub-kategori og kræver meget manuel arbejde. Man definere f.eks selv sine _features_, og kan så træne. Mange parametre.
 * Deep Learning: er en sub-kategori af machine learning. Her kaster man bare billeder og labels efter en struktur og træner; der er (relativt) ikke så meget man kan juster på, og det hele foregår meget som en blackbox. Består af neurale netværk, der via sine layers og connections imellem dem definere et billede.
 
-### Image classification
+### 3.2 Image classification
 
 * _Image classification_ er en måde at klassificere hvad et billede repræsentere
 * Det har mange udfordringer: 
