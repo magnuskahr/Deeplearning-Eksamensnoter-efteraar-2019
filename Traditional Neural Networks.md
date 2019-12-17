@@ -1,10 +1,17 @@
 # 1. Traditional Neural Networks
 
+
+{{TOC}}
+
 _Lektion 3 og 4_ 
 
 ## 0. Motivation
 
+Vi ønsker at lave et simpelt neuralt netværk.
+
 ## 1. Lineær regression
+
+Først vil vi snakke lidt om lineær regression, for at få nogle begreber på plads.
 
 Hvad er regression? Med regression finder man den funktion der bedst beskriver sin data.
 Ideen bag *lineær regression*, er så at man finder en lineær funktion (altså en lige linje), der bedst beskriver forholdet mellem to variabler, f.eks detaljerne ved et hus og prisen heraf.
@@ -12,7 +19,7 @@ Dette skal forgå ved inputtet $x \in \R^m$ der give outputtet $y \in \R$.
 
 Målet ved at gøre dette, er at vi skal kunne fremsige hvad en resultat $y$ er for en vektor af input værdier $x$.
 
-## 1.1 Eksempel, huse
+### 1.1 Eksempel, huse
 Lad os beskrive hvad vi kan bruge linear regression med, via et eksempel.
 
 Hvis vi har et trænings-sæt af huse, så definere vi det _i’te_ hus’s detaljer (eller hvad vi kan kalde for _features_) for $x^i$ og prisen er angivet $y^i$.
@@ -38,7 +45,6 @@ For at kunne finde sådan en funktion $y=h(x)$, så vil vi gerne snakke om optim
 
 For at optimere en lige linje, vil vi gerne at der er mindst mulig distance mellem linjerne og punkter, og den ved den korteste distance snakker vi da om L2 normen. 
 
-
 * Explain conceptually what optimization is, and what is the purpose of it
 
 ### 2.1 Loss funktioner
@@ -46,6 +52,8 @@ For at optimere en lige linje, vil vi gerne at der er mindst mulig distance mell
 Det lader os begynder at snakke om *loss funktioner*, der er forskellige metoder hvorpå vi kan optimere en funktion til at repræsentere et forhold mellem tal.
 
 Hvis vi forestiller os, at vi optimere vores funktion over flere omgange, så for hver omgang, vil vores *loss* funktion fortælle os hvor meget vores funktion afviger fra vores data. Vi ønsker derved at vi har en lille loss, og at vi for hver omgang i vores optimere får en mindre loss, da det fortæller os at vores funktion bliver bedre til at repræsentere vores data.
+
+ - [ ] Explain conceptually the difference between using L1 vs L2 regularization
 
 #### 2.1.1 L2 
 
@@ -99,25 +107,83 @@ Hvis den overfitter, siger man at den har husket data og derved ikke er god til 
 
 ## 3. Logistic regression
 
-16. Explain what logistic regression is (what are the inputs/outputs, and how is mapping between them described?)
-17. Mathematically define the model, h(x), used in logistic regression.
-18. Know what a sigmoid function is and explain why it can be used to model probabilities for
-two classes
-19. Define the (cross entropy) loss function typically used in logistic regression
-20. Explain how logistic regression works on images, like MNIST
-21. Explain what is meant by regularization
-22. Explain how weight decay works
+I _logistic regression_ forudsiger vi om noget er sandt eller falsk, altså vi får et binært output.	 
+Det er ikke en lige linje, men en “s”-shaped logistisk funktion. Kurven fortæller derved en sandsynlighed. Det er ofte brugt for _klassifikation_.
 
-### 3.1 Loss functions: softmax
-23. Explain conceptually the difference between using L1 vs L2 regularization
-24. Define the softmax function and explain how it c be used to make the model predict class
-probabilities for more than two classes
-25. Explain how the loss function is calculated for softmax regression – and compare with the
-loss function for logistic regression
-26. Explain how sofmax regression works on images, like MNIST
+Vi har derved
 
-### 3.2 Entropy
-27. Explain what entropy is (conceptually using weather station example is okay)
-28. Explain what cross entropy is (conceptually using weather station example is okay)
-29. Mention what KL divergence is and what it “measures”
-30. Explain how cross entropy relates to logistic regression and softmax regression
+> $$P(y = 1 | x)=h(x)$$
+> $$P(y = 0 | x) = 1 - P(y = 1 | x) = 1 - h(x)$$
+
+Til at definere $h(x)$ bruger vi sigmoid funktionen, der for et input $x$ giver en tal mellem 0 og 1, hvilket svarer til en sandsynlighed.
+
+> $$h(x) = \sigma(x) = \frac{1}{1+e^{-ax+b}}$$
+
+Hvor $a$ giver hældning på kurven og $b$ forskyder den.
+Målet er da at finde optimale $a$ og $b$ så sandsynligheden for at $h=1$ er høj når $x$ tilhører den ene klasse, og lav når den tilhører den anden.
+
+### 3.1 cross entropy
+
+For logistic regression bruges ofte loss-funktionen _cross entropy_. Den beskriver et loss ud fra to sandsynligheds distributioner: de en model finder, og en one-hot vector af de virkelige sandsynligheder.
+
+Losset er givet ved:
+
+> $-\sum_{i=1}^n p_i \cdot \log q_i$
+
+Hvor $p$ er sandhederne og $q$ er predictions.
+
+Skulle man bruge logistic regression på billeder, ville man konventer dem om til vektorer og så regne med dem sådan. Til at starte med vil det ikke være præcist, men efter træning vil det nok. Her kunne $a$ og $b$ være erstattet af et $w$, som til at starte med bare er at billede af støj, men med tiden vil tage form.
+
+### 3.2 Regulering
+
+For at sørge for at såden en vægt blive trænet til at overfitte, og derved ikke kan generaliser data, bruger man _regularization_, altså at man regulere. Ved at bruge weight decay, tilføjer man en ekstra lag til ens loss funktion, der sørger for at fjerne vægte og holde ens model simpel.
+
+## Decision Boundary og udfordringer
+
+Siden _logistic Regression_ er en lineær classifier, kan vi nu opdele data der ligger i to grupper og kan deles af en lige streg; hvad der kan kaldes en _decision boundary_.
+
+~~Den er lineær fordi x er lineær~~
+
+Men hvad nu hvis vi en kategori ligger omkring origo, og den anden ligger i en ring uden om? Så vil det kræve en cirkel af skille dem ad.
+Det viser sig, at hvis man laver koordinat systemet om til polar, så kan det stadig skelnes af en linje.
+
+![](polar.png)
+
+Men det er ikke nok, vi kan ikke klassikere mere avancerede ting som kvadranter, donuts eller tre grupper.
+
+## Neurale netværk
+
+Det er her neurale netværk kommer ind i billedet, så lad os hurtigt designe sådan et.
+
+![](simple_nn.png)
+
+Dette er et simpel _fully connected network_, hvor hvert output er afhængig af alle output fra forrige lag.
+
+Det består af en _input layer_ med tre units. De giver alle tre deres output til alle units i næste lag, der er et hidden layer, der igen med tre units alle giver deres output til output laget. Det ses også at de to sidste lag har en bias, som vi faktisk har set før. Det biasen gør, at det shifter resultatet.
+
+En sådan unit I et hidden layer kaldes en _hidden unit_ og har en activation function; hvilket kunne være sigmoid. Man kan tænke på sådan en unit som et “template”, og hvis inputtet passer til dette template (f.eks at matche et 0-tal) i forhold til activation funktionen og vægten, så aktivere den. Hvis ikke vi havde disse aktiverings funktioner, ville netværket bare være en lineær tranformartion.
+
+### Klassifisering
+
+Skal sådan et netværk bruges til klassifisering, så hvis det er binært output, vil vores virke som det er nu.
+
+Men skal man kunne genkende flere end to klasser, vil man have en output unit for hver klasse; og ved at bruge softmax funktionen, vil man da for hver unit få en sandsynlighed for at det er en tilsvarende kategori.
+
+### Eksempel AND
+
+Kan vi bruge et netværk til binary operationer? Ja det kan vi da!
+
+![](and.png)
+
+Hvis vi har et lag med to input units og en bias, der alle fører til et output layer. Output layeret har så en sigmoid aktiverings funktion, og med en bias på $-30$ og weight på $20$
+
+| x1 	| x2 	| h(x)                     	|
+|----	|----	|--------------------------	|
+| 0  	| 0  	| $\sigma (-30) \approx 0$ 	|
+| 1  	| 0  	| $\sigma (-10) \approx 0$ 	|
+| 0  	| 1  	| $\sigma (-10) \approx 0$ 	|
+| 1  	| 1  	| $\sigma (10) \approx 1$  	|
+
+
+
+

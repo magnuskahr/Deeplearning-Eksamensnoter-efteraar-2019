@@ -94,3 +94,15 @@ _Baseret på lektion 1 og 2_.
 * Siger vi at $w$ er en vektor af vægte der beskriver features, Så skulle vi lave en _linear classifier_ der kan fortælle om et billede er noget bestemt kunne vi finde et threshold hvor at sålænge $w \cdot x$ (inner produktet) er over et bestemt threshold, så tilhører det billedet. Det betyder at plotter vi tingene, vil der komme en lige linje der beskriver hvornår et billede er en bil eller ej.
 * Men en linear classifier er ikke altid det vi skal bruge, hvordan vil de f.eks opdele en donut?
 	* Dog kan en non-linear tranformation af feature spaced hjælpe her. Transferer man feature spacet fra til at bruge polar koordinater vil man nu kunne separer dem med en linje
+
+## 3.3 Traditional Neural Networks
+* Softmax regression er ligesom logistic regression, men med mere end to klasser, hvilket gør man kan klassificer inden for mange klasser. Outputtet er da en vektor af sandsynligheder for de forskellige klasser.
+* Backpropagation foregår ved at starte bag fra ved output laget, og i forhold til ens loss - så kigger man på, hvor tæt var jeg på at give det rigtige resultat? Og justere vægt og bias ud fra det, så går man et lag tilbage, og spørger det lag: “Hvor tæt var jeg på at give det som det næste lag skulle bruge?” Og opdatere ud fra det osv.
+* Overfitting sker hvis val_loss stikker af
+* Vanishing gradient problem: tæt på 0 og 1 ændre sigmoid sig ikke meget, så gradienten herfra ville nærmest være usynlig hvis den bruges meget. Fix det ved at bruge noget andet, f.eks RELU
+* saturation: er egentlig grunden til vasnishing gradient problemet, det er at funktioner bliver så flad at den afledte funktion ikke rigtig giver noget
+* stochastic gradient descent udregner kun en gradient på noget af dataen i 
+* andre aktiverings funktioner: RELU, LEAKYRELY, TANH
+* perceptron: outputted kun binært
+* logistic unit: outputter sandsynligheder
+* Be familiar with the common neural network notation (x: input, y: output, W: weights, z: output before activation, a: output after activation)
