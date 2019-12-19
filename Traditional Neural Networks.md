@@ -72,7 +72,7 @@ Værdien heraf er da vores _loss_, men hvordan bruger vi den så?
 ### 2.2 Gradient descent
 
 
-Hvis vi siger at _loss’en_ for vores funktion og dets koefficienter er plottet og den ligner en skål, en tilfældig position på skålens overflade er da _loss’en_ for de koefficienter der er brugt der.
+Hvis vi siger at _loss’en_ for vores funktion og dets koefficienter er plottet og den ligner en skål, vil en tilfældig position på skålens overflade da være _loss’en_ for de koefficienter der er brugt der.
 
 Vi ønsker at finde de koefficenter der er på bunden af skålen, hvor lossen er mindst, kaldet funktionens minimum.
 

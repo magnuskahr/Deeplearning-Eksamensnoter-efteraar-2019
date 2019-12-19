@@ -106,3 +106,91 @@ _Baseret på lektion 1 og 2_.
 * perceptron: outputted kun binært
 * logistic unit: outputter sandsynligheder
 * Be familiar with the common neural network notation (x: input, y: output, W: weights, z: output before activation, a: output after activation)
+
+## 3.4 Convolutional Neural Networks
+* Importance of Bias
+	* The main function of Bias is to provide every node with a trainable constant value (in addition to the normal inputs that the node receives).
+* No computation is performed in any of the Input nodes – they just pass on the information to the hidden nodes.
+* En bias er en vægt der bliver applied på tallet ‘1’, så det er bare biasen faktisk.
+* Explain what is meant by “sparse interactions”, and what is the purpose of it
+	* Et filter på et Convolutional layer er meget mindre end en vægt der skulle bruges på at matche et helt billede. Så det kræver mindre at arbejde med.
+* Explain what is meant by “parameter sharing”, and what is the purpose of it
+	* each member of the kernel is used at every position of the input (except perhaps some of the boundary pixels, depending on the design decisions regarding the boundary). The parameter sharing used by the convolution operation means that rather than learning a separate set of parameters for every location, we learn only one set.
+* Explain what is meant by translation invariance, and where it comes from (see “equivariant representation”).
+	* This ideally results in translation invariance: the same object with slightly change of position eventually fires up the neuron (in the last layers of the network) that is supposed to recognize that object.
+* Know the difference between “valid” and “same” convolution in deep learning framework, like Keras
+	* “valid” means no padding – convolution kernel must fit inside input image.
+	* “same” means zeros-pad such that output has same shape as input.
+* Know that convolution is a linear operation
+* Describe ways to convert a feature map (volume) to a vector before being fed into a fully connected layer
+	* Flatten
+	* Global Average Pooling
+* Explain what a computational graph is and illustrate an example, say f(x,y,z) = (x+y)*z
+	* Det er bare at tegne det op, her er det for f(x,y,z) = (x+y)*z
+	* ![](comgraph.png)
+* Explain how a forward pass is made in a computational graph (example is okay)
+- [ ] Explain how a backward pass is made (example is okay), and how the chain rule is used to calculate the partial derivatives
+- [ ] Explain conceptually the “chain rule in a neuron”
+- [ ] Know that backpropagation for convolution can be mathematically derived using the “chain rule in a neuron” and that this involves two convolution operations as depicted in slide 109.
+* Motivate the need for data preprocessing and explain what it typically involves (zero-centering and normalization)
+	*  the datapoints lie “far” away from the origin. Small changes in the slope (weights) cause large changes in the loss. The resulting fluctuations in the loss makes gradient descent optimization very unstable.
+- [ ] Explain how consecutive matrix multiplications can lead to numerical output values that either explode or vanish (example is okay), and describe the link to vanishing/exploding gradients in a neural network
+* Motivate the two simple rules used to minimize the risk of vanishing/exploding gradients(see “sweet spot” slides)
+	* The mean of the activations should be zero.
+	* The variance of the activations should stay the same across every layer.
+	* Brug Xavier eller Kaiming
+* In overall terms describe what the layer activation statistics (histograms) should look like (or not look like)
+	* Skal gerne gå fra en bue startende i -1 til 1, så variansen(?) er nogenlunde ens
+* Motivate the use of batch normalization and explain how it works (including why it has two learnable parameters and what they are used for)
+	* Det er et layer
+	* We normalize the input layer by adjusting and scaling the activations. For example, when we have features from 0 to 1 and some from 1 to 1000, we should normalize them to speed up learning. If the input layer is benefiting from it, why not do the same thing also for the values in the hidden layers.
+	* We can use higher learning rates because batch normalization makes sure that there’s no activation that’s gone really high or really low. And by that, things that previously couldn’t get to train, it will start to train.
+	* It reduces overfitting because it has a slight regularization effects. 
+	* Virker som _regularization_ ved runtime
+* Explain what is meant by “regularization”, and how it relates to overfitting
+	* Målet er regulere modellen så den virker på generelt data
+	* Det kan vi gøre ved dropouts
+	* tilføje noise til vores data
+	* anden dataagumentation
+	* early stopping 
+* Describe what early stopping means, and how to detect when to stop training by inspecting loss curves
+	* val_loss stikker af, så stop 
+* Motivate the use of dropout and explain what it does
+	* In each forward pass, randomly set some neurons to zero.
+	* Dropout prevents neurons from co-adapting too much
+* Motivate the use of data augmentation and mention examples of image augmentation
+	* Seriøst?
+* Explain what weight decay is and how it works
+	* Ved at bruge weight decay, tilføjer man en ekstra lag til ens loss funktion, der sørger for at fjerne unødige vægte og holde ens model simpel.
+* Know what hyperparameters are, and what hyperparameter tuning means
+	* Det ved du godt
+* Explain how the sigmoid works; that is approximately linear around x = 0; and that the derivative is close to zero when x is numerically large
+	* [0; 1], hvor den ikke udvikler sig meget i ekstremerne
+* Explain what it means for a sigmoid to be saturated, what causes it, and how it affects the training of a neural network
+	* omkring ekstermene er der en lav gradient der gør det svært at træne
+* Describe what happens to the gradients, when data (like output of a sigmoid) is not zero- centered
+	* If the data coming into a neuron is always positive (e.g., x > 0 elementwise), then the gradient on the weights w will during backpropagation become either all positive, or all negative (depending on the gradient of the whole expression f).
+	* This could introduce undesirable zig-zagging dynamics in the gradient updates for the weights.
+	* However, notice that once these gradients are added up across a batch of data, the final update for the weights can have variable signs, somewhat mitigating this issue.
+* Describe how the rectified linear unit (ReLU) works, and why it doesn’t saturate
+	* max(0, x)
+* Know that training is faster when using ReLU compared to when using sigmoid (according to AlexNet paper)
+* Know what a dead ReLU is, and what causes it
+		- A "dead" ReLU always outputs 0 for any input. Probably this is arrived at by learning a large negative bias term for its weights.In turn, that means that it takes no role in discriminating between inputs. For classification, you could visualise this as a decision plane outside of all possible input data.Once a ReLU ends up in this state, it is unlikely to recover, because the function gradient at 0 is also 0, so gradient descent learning will not alter the weights. "Leaky" ReLUs with a small positive gradient for negative inputs (y=0.01x when x < 0 say) are one attempt to address this issue and give a chance to recover.
+* Explain how global average pooling works, and what is the advantage of this approach over simple flattening.
+			- Laver en $h \cdot w \cdot d$ om til $1 \cdot 1 \cdot d$, hvor HW er avagared
+* Describe conceptually what is meant by “receptive field” and explain why it increases when going deeper into the network (e.g., after max pool layers)
+	* At de units dypere nede nærmest kan være connected til alle inputs fra begyndelsen (ligesom vi vel teoretisk set alle er i familie?)
+* Describe how increasing the stride of convolution operations can have a similar effect as max pool, and explain why this might some times be a good idea (see “is max pooling deprecated?”)
+	* Perform convolution with stride = 2.
+	* Has the same effect of down-sampling by a factor of two (like max pooling normally does), but information is not thrown away in the same way as with max pooling.
+- [ ] Explain how fully connected layers may be replaced with 1x1 convolutions, and that this enables ConvNets to accept inputs of arbitrary shape.
+* Motivate learning rate decay and describe at least one way to implement it
+	* Man kan starte ud med en høj learning rate, lige for at udforske det hele lidt, og så langsomt sænke den for at tune in på en local minimum.
+	* Man kan f.eks sænke efter hver 5. epoch, eller når val_loss stopper med at forbedre sig
+- [ ] Explain what zero padding is, and what is the purpose of it
+- [ ] Explain how to calculate the zero padding size in such a way that the input height/width is maintained after the convolution operation, i.e., the formula (W-1)/2
+- [ ] Motivate Adagrad and explain how it differs from standard SGD
+	* Adagrad adapts the learning rate to the parameters, performing smaller updates(i.e. low learning rates) for parameters associated with frequently occurring features, and larger updates (i.e. high learning rates) for parameters associated with infrequent features. 
+- [ ] Conceptually know what extra benefits might be achieved with Nestorov momentum, RMSProp and Adam
+	- [ ] Adam er som en tung bold med friktion. Den løber hurtig ned af men vil have svært ved at gå op ad.
