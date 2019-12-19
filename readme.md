@@ -194,3 +194,24 @@ _Baseret på lektion 1 og 2_.
 	* Adagrad adapts the learning rate to the parameters, performing smaller updates(i.e. low learning rates) for parameters associated with frequently occurring features, and larger updates (i.e. high learning rates) for parameters associated with infrequent features. 
 - [ ] Conceptually know what extra benefits might be achieved with Nestorov momentum, RMSProp and Adam
 	- [ ] Adam er som en tung bold med friktion. Den løber hurtig ned af men vil have svært ved at gå op ad.
+## 3.5 ConvNet architectures 
+
+- [ ] Describe in overall terms the architecture of a ResNet
+- [ ] Know that going deeper (increasing network capacity) does not necessarily improve network performance, and that this seems to be due to optimization problems, rather than overfitting (see ResNet motivation)
+- [ ] Motivate the use of residual blocks (ResNet)
+- [ ] Explain how residual blocks work
+- [ ] Know the difference between a type 1 skip connection and a type 2 skip connection
+- [ ] Motivate the use of depthwise separable convolution and explain how it works
+- [ ] Describe what an autoencoder is (input=output)
+- [ ] Know what transpose convolution does, explain how it works, and that it has learnable parameters (as opposed to simple nearest neighbour upsampling)
+- [ ] Explain why neural networks are not invertible (example is okay)
+
+- [ ] Explain the concept of maximally activating patches and how it can be used to visualize what individual neurons react to
+- [ ] Explain conceptually what a receptive field is and how its size increases for neurons that are deeper in the network
+- [ ] Describe in overall terms what deconvolution does (as in ZF Net) and how it works
+- [ ] Explain how to obtain saliency maps by occlusion
+- [ ] Describe in overall terms how to obtain class activation maps with Grad-CAM
+
+- [ ] Know what an adversarial attack is
+- [ ] Explain in overall terms how texture synthesis works, including what a Gram matrix is, and what it does (intuitively). Also know what “style image” means.
+- [ ] Explain conceptually how Neural Style Transfer works
