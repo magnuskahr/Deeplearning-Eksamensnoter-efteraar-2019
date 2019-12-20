@@ -196,22 +196,53 @@ _Baseret på lektion 1 og 2_.
 	- [ ] Adam er som en tung bold med friktion. Den løber hurtig ned af men vil have svært ved at gå op ad.
 ## 3.5 ConvNet architectures 
 
-- [ ] Describe in overall terms the architecture of a ResNet
-- [ ] Know that going deeper (increasing network capacity) does not necessarily improve network performance, and that this seems to be due to optimization problems, rather than overfitting (see ResNet motivation)
+* Describe in overall terms the architecture of a ResNet
+	* Er et meget dybt netværk som er bygget af _residual connection_
+	* In a network with residual blocks, each layer feeds into the next layer and directly into the layers about 2–3 hops away. That’s it.
+* Know that going deeper (increasing network capacity) does not necessarily improve network performance, and that this seems to be due to optimization problems, rather than overfitting (see ResNet motivation)
+	* Gradienter bliver så små, at det er svært
 - [ ] Motivate the use of residual blocks (ResNet)
 - [ ] Explain how residual blocks work
-- [ ] Know the difference between a type 1 skip connection and a type 2 skip connection
-- [ ] Motivate the use of depthwise separable convolution and explain how it works
-- [ ] Describe what an autoencoder is (input=output)
-- [ ] Know what transpose convolution does, explain how it works, and that it has learnable parameters (as opposed to simple nearest neighbour upsampling)
-- [ ] Explain why neural networks are not invertible (example is okay)
-
-- [ ] Explain the concept of maximally activating patches and how it can be used to visualize what individual neurons react to
-- [ ] Explain conceptually what a receptive field is and how its size increases for neurons that are deeper in the network
-- [ ] Describe in overall terms what deconvolution does (as in ZF Net) and how it works
-- [ ] Explain how to obtain saliency maps by occlusion
+* Know the difference between a type 1 skip connection and a type 2 skip connection
+	* Skip 1: beholder shape
+	* Skip 2: ændre shape, f.eks ved conv + batchnorm
+* Motivate the use of depthwise separable convolution and explain how it works
+	* FØLGENDE ER HVAD JEG TROR
+	* Først splittes de forskellige channels op og der køres en conv $k \cdot k$ på hver
+	* Så samles de igen og der køres en $1 \cdot 1$ conv på de forskellige pixels på tværs af lagene for at reducere dimensionerne
+	* Det skulle efter sigende kræve færre udregninger
+* Describe what an autoencoder is (input=output)
+	* An autoencoder is an unsupervised machine learning algorithm that takes an image as input and tries to reconstruct it back using a fewer number of bits from the latent space representation.
+	* For example, the neural network can be trained with a set of faces and then can produce new faces.
+* Know what transpose convolution does, explain how it works, and that it has learnable parameters (as opposed to simple nearest neighbour upsampling)
+	* det er jo bare en omvendt conv! Så derfor er det klart at der er learnable parakeet
+* Explain why neural networks are not invertible (example is okay)
+	* Many different inputs could have generated a particular output.
+* Explain the concept of maximally activating patches and how it can be used to visualize what individual neurons react to
+	* which images maximally activate some neuron
+	* (1) Evaluate the validation database on the trained network.
+	* (2) Record the nine highest activation values of each filter’s output.
+	* (3) Project the recorded 9 outputs into input space for every neuron and extract the corresponding patch
+	* OKAY LYT LIGE HER! Så vi bruger de 9 højeste values og projekter dem ind i vores dataset for at finde hvor de slår ud
+	* Giver ikke mening
+* Explain conceptually what a receptive field is and how its size increases for neurons that are deeper in the network
+	* The receptive field is defined as the region in the input space that a particular CNN’s feature is looking at (i.e. be affected by).
+	* 	A receptive field of a feature can be described by its center location and its size.
+* Describe in overall terms what deconvolution does (as in ZF Net) and how it works
+	* The objective of this is to project hidden feature maps back into the original input space
+	* This allows us to visualize the activation functions of a specific filter.
+* Explain how to obtain saliency maps by occlusion
+	* Først .. havd er det?
+		* Suppose that all the training images of bird class contains a tree with leaves.
+		* How do we know whether the CNN is using bird-related pixels, as opposed to some other features such as the tree or leaves in the image?
+		* Saliency maps tell us how different image regions affect the predicted class label.
+		* Solution: Simple idea – mask part of the image before feeding to CNN, check how much predicted probabilities change.
 - [ ] Describe in overall terms how to obtain class activation maps with Grad-CAM
-
-- [ ] Know what an adversarial attack is
-- [ ] Explain in overall terms how texture synthesis works, including what a Gram matrix is, and what it does (intuitively). Also know what “style image” means.
-- [ ] Explain conceptually how Neural Style Transfer works
+* Know what an adversarial attack is
+	* Adversarial examples are inputs to machine learning models that an attacker has intentionally designed to cause the model to make a mistake; they’re like optical illusions for machines.
+* Explain in overall terms how texture synthesis works, including what a Gram matrix is, and what it does (intuitively). Also know what “style image” means.
+	*  The purpose of texture synthesis is to generate high perceptual quality images that imitate a given texture.
+	*  This can be done using a pretrained CNN classifier
+* Explain conceptually how Neural Style Transfer works
+	* Tage to billeder, og apply stylen fra det ene til det andet
+- [ ] Explain conceptually how to visualize features using dimensionality reduction (including what t-SNE aims to do – but not necessarily how it does it...)
