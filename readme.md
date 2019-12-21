@@ -248,6 +248,8 @@ _Baseret på lektion 1 og 2_.
 - [ ] Explain conceptually how to visualize features using dimensionality reduction (including what t-SNE aims to do – but not necessarily how it does it...)
 ## Object detection and segmentation
 * Describe conceptually what is meant by non-maximum suppression
+* IoU
+	* $IoU(A,B)=\frac{|A\cap B|}{A\cup B}$
 * Motivate single-stage object detection (like YOLO) and explain conceptually how it works
 	* Del et billede op i 7x7 og kategoriser hver celle
 	* Find også bounding boxes I billedet og en confidence på hvor meget den tror det er et object
