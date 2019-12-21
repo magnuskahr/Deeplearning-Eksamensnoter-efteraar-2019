@@ -246,3 +246,15 @@ _Baseret på lektion 1 og 2_.
 * Explain conceptually how Neural Style Transfer works
 	* Tage to billeder, og apply stylen fra det ene til det andet
 - [ ] Explain conceptually how to visualize features using dimensionality reduction (including what t-SNE aims to do – but not necessarily how it does it...)
+## Object detection and segmentation
+* Describe conceptually what is meant by non-maximum suppression
+* Motivate single-stage object detection (like YOLO) and explain conceptually how it works
+	* Del et billede op i 7x7 og kategoriser hver celle
+	* Find også bounding boxes I billedet og en confidence på hvor meget den tror det er et object
+	* Smelt disse to ting sammen
+* Describe the overall architecture of a U-Net
+	* Læs min rapport
+	* Ej okay, det er som et u
+	* Der er en contracting-path og en expanding-path
+	* I den første bliver billedet mindre og mindre med flere og flere channel; eftersom som det går igennem sæt af conv+conv+pool
+	* I den anden fase, går skip-cons fra den første fase over, til denne, for at give information om hvor ting er, imens der blive rupsampled
