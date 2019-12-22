@@ -260,3 +260,14 @@ _Baseret på lektion 1 og 2_.
 	* Der er en contracting-path og en expanding-path
 	* I den første bliver billedet mindre og mindre med flere og flere channel; eftersom som det går igennem sæt af conv+conv+pool
 	* I den anden fase, går skip-cons fra den første fase over, til denne, for at give information om hvor ting er, imens der blive rupsampled
+## Generative Adversible Network
+
+* Know what a Deep Convolutional GAN (DCGAN) is and what the overall network architecture looks like
+	*  Bygget på convolution lag, der går fra en vector (n=100) af noise, 1024x4x4 ned til 3x64x64
+* Know conceptually what a Conditional GAN is.
+	*  At kunne genere et bestemt type billede? En one-hot vector bliver concaneret med noise inputtet, til at beskrive hvad den skal lave
+* Mention examples of latent space arithmetic
+	* Cluster 1: mand med briller
+	* Cluster 2: mand
+	* C1 - C2 = briller!
+	* Så sådan et netværk burde vi kunne lave
