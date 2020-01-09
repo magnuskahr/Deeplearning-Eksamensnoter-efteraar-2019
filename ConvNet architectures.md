@@ -1,27 +1,24 @@
 # ConvNet architectures 
-_Lektion 7 og 10_
 
-## Motivation
+{{TOC}}
 
 ## Træning af ConvNets
 
 CNN er en kategori af neurale netværk der har vist sig at være effektive til billede genkendelse og klassifisering; her i blandt til ansigter, objekter, skilte og så videre, til f.eks brug i robotter og selv kørende biler.
 
-Denne process udkommer fra at et convnet kan splittes beskrives som to dele, en encoder og en decoder.
+Denne process udkommer fra at en cnn kan beskrives som to dele, en encoder og en decoder.
 
-Encoderen har til mening at udtrække features i et billede, alt generalisere hvad et billede består af ned til simple dele. Det er så decoderens job ud fra disse informationer at forstå hvad billedet repræsentere afgrænset af de mulige kategorier.
+Encoderen har til mål at udtrække features fra et billede, altså at generalisere hvad et billede består af ned til simple dele. Det er så decoderens job ud fra disse informationer at forstå hvad billedet repræsentere afgrænset af de mulige kategorier.
 
 ### Layers
 
-For at dette kan virke, består netværket af nogle layers som besidder nogle filtre og vægte, altså matricer af tal. Det er disse som træningen handler om, og har mans succesfuldt trænet et netværk, vil man kunne se at de forskellige layers lærer forskellige ting.
-
-Til at starte med, vil lagene begynde at lære om kanter og streger. Går vi lidt dybere, ser vi at disse vil blive sammensat til simple former og tekstur. Længere nede ser vi da mere komplekse former, de kunne være ansigt, hjul, eller døre. Aller sidst i decoderen, i output laget, vil vi da se repræsentationer af hvad klasse, nærmest som en skabelon eller template. Og ud fra disse, vil de forskellige units så slå ud hvis deres input passer godt derpå.
+For at dette kan virke, består netværket af nogle layers som besidder nogle filtre og vægte, altså matricer af tal. Det er disse som træningen handler om, og har man succesfuldt trænet et netværk, vil man kunne se at de forskellige layers lærer forskellige ting.
 
 ### Transfer learning
 
 Men at træne sådan et netværk, til at kunne beside så komplekse vægte; kan
 
-> **Træning af convnet**
+> **Træning af CNN**
 > 
 > 1. Tage lang tid
 > 2. Kræve et kæmpe dataset
@@ -29,13 +26,9 @@ Men at træne sådan et netværk, til at kunne beside så komplekse vægte; kan
 Hvorfor det kan være godt at udnytte transfer-learning.
 Hvis man opbygger sit netværk omkring transfer learning, betyder det at man bruger en pre-trænet encoder, og så bruger sin egen decoder som man så træner.
 
-Bruger man ImageNet som dataset, vil det normalt tage flere uger at træne sit netværk, men ved at bruge Transfer Learning kan det gøres omkring en times tid. 
+Bruger man ImageNet som dataset, vil det normalt tage flere uger at træne sit netværk, men ved at bruge Transfer Learning kan det gøres omkring en times tid.
 
-> Imagenet: 1 million billeder, 100 kategorier 
-
-ImageNet består af over 1 million billeder fordelt på 1000 kategorier, og bruger man en CNN der er trænet på ImageNet er der f.eks nogle forskellige måder at håndter det på.
-
-Et Convolutional Netværk har jo typisk i sin decoder, flere fully connected lag, så lad os stille to forskellige scenario op:
+En CNN har jo typisk i sin decoder, flere fully connected lag, så lad os stille to forskellige scenario op:
 
 Hvis man har et lille dataset selv, så erstat kun det sidste FC lag, da man ellers vil kunne komme til at overfitte.
 > Lille dataset = sidste FC
@@ -94,9 +87,7 @@ GoogleNet er et meget anderledes netværk, det har i midten nogle 1x1 convolutio
 ### 1v1 conv 
 Ved at bruge 1x1 conv, reducere GoogleNet sin depth, der kan bruges til at spare mange udregninger.
 
-Har man f.eks en shape af $14 \cdot 14  \cdot 480$ og ønsker en 5x5 conv til $14 \cdot 14 \cdot 48$, vil det tage over 100 millioner udregninger.
-
-Starter man dog ud med en conv 1x1 til $14 \cdot 14 \cdot 16$ for så at conv 5x5 til $14 \cdot 14 \cdot 48$, tager det kun omkring 5 millioner udregninger.
+Google Net skulle bruge det til at reducere udregninger et sted i deres netværk fra 100 millioner til 5 millioner.
 
 ### Inception
 
@@ -119,7 +110,7 @@ Disse bruges under træning kun, og deres loss ligges til den samlede loss med e
 
 ## Layer Activations
 
-Så det var tre forskellige netværker, og det kan godt være lidt svært sådan at forstå hvordan og hvorfor de virker; da man har meget lille ansigt i træningen og de ting der sker.
+Så det var tre forskellige netværker, og det kan godt være lidt svært sådan at forstå hvordan og hvorfor de virker; da man har meget lille indsigt i træningen og de ting der sker.
 
 Derfor kan det være meget smart at man kan visualisere de forskellige layers aktivationer og filtre. Det tillader os blandt andet at:
 
@@ -128,10 +119,6 @@ Derfor kan det være meget smart at man kan visualisere de forskellige layers ak
 > * Lave bedre designs!
 
 For at visualisere aktivationer, er den nemmeste måde er at visualisere de forskellige kanaler ved et forward pass. Når vi kommer længere ned i netværket, vil nogle kanaler virke tomme, grundet at det pattern de repræsentere ikke var tilstede i billedet.
-
-~~I filtre vil vi gerne se at de er smooth og ikke fulde af noise~
-
-Vil man visualizere hvordan et fully connected lag klarer sig, kan man træne med en masse billeder og gemme feature vektorerne fra det lag. Man kan så kører KNN på disse, og hvis billeder der repræsentere det samme (features) er det godt, men hvis det bare er billeder der ligner hinanden (f.eks to billeder af to slags dyr på en hvid baggrund) er det dårligt. Altså vil vi ikke have pixels der er ens.
 
 ## Rekonstruktion
 
@@ -144,20 +131,4 @@ Vi vil nu ved at give et _content_ billede _x_ til netværket, finde det billede
 Det virker ved at vi optimere på billedet i stedet for vægte. Så hvis vi initialisere vores billede _y_ med random noise, og vi smider _x_ igennem netværket, så vil optimeringen ske på y i stedet for de forskellige vægte.
 
 Des dybere laget for outputtet er, des mere _abstract_ ser resultatet ud.
-
-### Max filter visualizering
-
-Vi kan også bede netværket om at outputtet et billede, som et lag vil slå maksimalt ud på.
-
-Ved at sende et random noise billede ind i netværket, for det lag vi ønsker at visualiser filtre for, tager vi så for hver af dets filtre en mean, det bruger vi så til, igen, at optimere på vores input noise billede, ved at bruge _gradient Ascent_, hvilket gør at at det resulterende billede vil få det givne lag til at slå laks ud.
-
-### Klasse baseret
-
-Vi kan også bede vores CNN, om at lave et billede, som den vil slå ud på for en given kategori.
-
-Vi starter igen med et billede bestående af random noise, og beder nu netværket om stille at tweake billedet til hvad den mener er en banan.
-
-Det kan hjælpe os med at forstå hvad et netværk tænker om en klasse, sæt nu den tror at en banen altid skal være i hånden på en abe? Så burde vi nu tjekke vores dataset, om der er nogle billede af isolerede bananer, eller sådan.
-
-
 
